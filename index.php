@@ -20,23 +20,13 @@ class AreYouPayingAttention
 
     function adminAssets()
     {
-        wp_register_style('quizeditcss', plugin_dir_url(__FILE__) . 'build/index.css');
-        wp_register_script('ournewblocktype', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
-        register_block_type('ourplugin/are-you-paying-attention', array(
-            'editor_script' => 'ournewblocktype',
-            'editor_style' => 'quizeditcss',
+        register_block_type(__DIR__, array(
             'render_callback' => array($this, 'theHTML')
         ));
     }
 
     function theHTML($attributes)
     {
-        // Just call the frontend.js on blog which is already edited -> have the our new block type!
-        if (!is_admin()) {
-            wp_enqueue_script('attentionFrontend', plugin_dir_url(__FILE__) . 'build/frontend.js', array('wp-element'));
-            wp_enqueue_style('attentionFrontendStyle', plugin_dir_url(__FILE__) . 'build/frontend.css');
-        }
-
         ob_start(); ?>
         <div class="paying-attention-update-me">
             <pre style="display: none;"><?php echo wp_json_encode($attributes) ?></pre>
